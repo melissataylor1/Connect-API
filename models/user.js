@@ -1,5 +1,4 @@
 const { Schema, model,} = require('mongoose');
-const reactionSchema = require('./Reaction');
 
 //
 const userSchema = new Schema(
@@ -33,3 +32,9 @@ const userSchema = new Schema(
         id: false,
     }
 );
+
+//add friend count
+
+//initialize user model
+const User = model('user', userSchema);
+module.exports = User;
