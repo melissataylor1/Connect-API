@@ -66,4 +66,33 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
+     //CREATE a reaction
+     createReaction(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $push: { reactions: req.body } },
+            { new: true }
+        )
+            .then((thought) =>
+                !thought
+                    ? res.status(404).json({ message: 'Thought Doesnt Exist' })
+                    : res.json({ message: 'Reaction created' })
+            )
+            .catch((err) => res.status(500).json(err));
+    },
+
+    //DELETE a reaction
+    deleteReaction(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $pull: { reactions: req.body } },
+            { new: true }
+        )
+        .then((thought) =>
+        !thought
+            ? res.status(404).json({ message: 'Thought Doesnt Exist' })
+            : res.json({ message: 'Reaction deleted' })
+    )
+    .catch((err) => res.status(500).json(err));
+    },
 };
