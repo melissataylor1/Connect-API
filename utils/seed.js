@@ -38,3 +38,15 @@ connection.once('open', async () => {
   // reachtions insterted in db
   await User.collection.insertMany(userData);
 
+  // random 5 word post
+  reactions.forEach(() => makeThought(getRandomThought(5)));
+
+  // post array to db
+  await Thought.collection.insertMany(thoughts);
+
+  // table generated
+  console.table(reactions);
+  console.table(thoughts);
+  console.timeEnd('seeding done');
+  process.exit(0);
+});
