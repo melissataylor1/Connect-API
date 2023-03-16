@@ -49,7 +49,7 @@ module.exports = {
             });
     },
 
-    // DELETE a user by its _id BONUS: removed a user's associated thoughts when deleted
+    // DELETE a user by its _id 
     deleteUser(req, res) {
         User.findOneAndDelete({ _id: req.params.userId })
             .then((user) =>

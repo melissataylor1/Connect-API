@@ -1,63 +1,53 @@
 const connection = require('../config/connection');
-const { User, Thought } = require('../models');
+const { Thought, User } = require('../models');
+const {
+  getRandomUserName,
+  getRandomReaction,
+  getRandomThought,
+  genRandomIndex,
+} = require('./data');
 
-connection.on('error', (err) => err);
+// Start the seeding runtime timer
+console.time('seeding');
 
+// Creates a connection to mongodb
 connection.once('open', async () => {
-  console.log('connected');
-
-  // Drop Users
-  await User.deleteMany({});
-
-  // Drop Thoughts
+  // Delete the entries in the collection
   await Thought.deleteMany({});
+  await User.deleteMany({});
+  const userData =[]
+  // Empty arrays for randomly generated posts and reactions
+  const reactions = [...getRandomReaction(10)];
+  const thoughts = [];
+  for(let i=0; i<10; i++ ){
+    const username = getRandomUserName().split(' ')[0]
+    const email= `${username}@${username}.com`
+    userData.push({
+      email,
+      username
+    });
+  }
+  // Makes reactions array
+  const makeThought = (thoughtText) => {
+    thoughts.push({
+      thoughtText,
+      username: getRandomUserName().split(' ')[0],
+      reactions: [reactions[genRandomIndex(reactions)]._id],
+    });
+  };
 
-  // Thoughts seed
-  const thoughts = [
-    {
-      thoughtText: "This is my thought...",
-      userName: 'Mel1998',
-    },
-    {
-      thoughtText: 'Politics these days..',
-      userName: 'PoliSciGuy',
-    },
-    {
-      thoughtText: 'Check out this recipe!',
-      userName: 'CookingMama',
-    },
+  // Wait for the reactions to be inserted into the database
+  await User.collection.insertMany(userData);
 
-  ];
+  // For each of the reactions that exist, make a random post of 10 words
+  reactions.forEach(() => makeThought(getRandomThought(10)));
 
-  // Add Thoughts
+  // Wait for the posts array to be inserted into the database
   await Thought.collection.insertMany(thoughts);
 
-  // Users Seeed
-  await User.collection.insertMany([
-    {
-      userName: 'Mel1998',
-      email: 'meltaylor@hotmail.com',
-    },
-    {
-      userName: 'PoliSciGuy',
-      email: 'bigbrain@gmail.com',
-    },
-    {
-      userName: 'CookingMama',
-      email: 'loves2cook@live.com',
-    },
-    {
-      userName: 'OrangeTabby',
-      email: 'leotaylor@gmail.com',
-    },
-    {
-      userName: '6toes',
-      email: 'pumpkin_taylor@rogers.com',
-    },
-  ]);
-
-  // table indicators
+  // Log out a pretty table for reactions and posts
+  console.table(reactions);
   console.table(thoughts);
-  console.info('Added Seeds!');
+  console.timeEnd('seeding complete 🌱');
   process.exit(0);
 });
