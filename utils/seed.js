@@ -6,29 +6,55 @@ connection.on('error', (err) => err);
 connection.once('open', async () => {
   console.log('connected');
 
-  // Drop existing Users
+  // Drop Users
   await User.deleteMany({});
 
-  // Drop existing Thoughts
+  // Drop Thoughts
   await Thought.deleteMany({});
 
   // Thoughts seed
   const thoughts = [
     {
-      thoughtText: "Here's a cool thought...",
-      userName: 'Amiko',
+      thoughtText: "This is my thought...",
+      userName: 'Mel1998',
     },
     {
-      thoughtText: 'Well, nice',
-      userName: 'Lucia',
+      thoughtText: 'Politics these days..',
+      userName: 'PoliSciGuy',
     },
     {
-      thoughtText: 'I love to gamble, nice',
-      userName: 'Al',
+      thoughtText: 'Check out this recipe!',
+      userName: 'CookingMama',
     },
-    {
-      thoughtText: 'Gamble all day everyday',
-      userName: 'Sam',
-    },
+
   ];
 
+  // Add Thoughts
+  await Thought.collection.insertMany(thoughts);
+
+  // Users Seeed
+  await User.collection.insertMany([
+    {
+      userName: 'Mel1998',
+      email: 'meltaylor@hotmail.com',
+    },
+    {
+      userName: 'PoliSciGuy',
+      email: 'bigbrain@gmail.com',
+    },
+    {
+      userName: 'CookingMama',
+      email: 'loves2cook@live.com',
+    },
+    {
+      userName: 'OrangeTabby',
+      email: 'leotaylor@gmail.com',
+    },
+    {
+      userName: '6toes',
+      email: 'pumpkin_taylor@rogers.com',
+    },
+  ]);
+
+
+});
