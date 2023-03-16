@@ -56,5 +56,8 @@ connection.once('open', async () => {
     },
   ]);
 
-
+  // table indicators
+  console.table(thoughts);
+  console.info('Added Seeds!');
+  process.exit(0);
 });
