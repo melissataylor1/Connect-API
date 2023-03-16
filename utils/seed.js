@@ -11,3 +11,4 @@ connection.once('open', async () => {
 
   // Drop existing Thoughts
   await Thought.deleteMany({});
+}
