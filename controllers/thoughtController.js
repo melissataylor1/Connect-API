@@ -14,7 +14,7 @@ module.exports = {
     Thought.findOne({ _id: req.params.thoughtId })
         .then((thoughtId) =>
             !thoughtId
-                ? res.status(404).json({ message: "No thought found with that id" })
+                ? res.status(404).json({ message: 'Thought doesnt exist' })
                 : res.json(thoughtId)
         )
         .catch((err) => res.status(500).json(err));
@@ -26,14 +26,44 @@ module.exports = {
     Thought.create(req.body)
     .then((thought) =>
     !thought
-      ? res.status(404).json({ message: 'No thought with this id!' })
+      ? res.status(404).json({ message: 'Thought doesnt exist' })
       : User.findOneAndUpdate(
           { username: req.body.username },
           { $addToSet: { thoughts: thought._id } },
           { new: true }
-          ).then((thought) => res.json('Thought successfully posted!'))
+          ).then((thought) => res.json('Youve shared your thought with the world successfully!'))
         )},
 
 
+    // UPDATE a single thought
+    updateThought(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $set: req.body },
+            { new: true }
+        )
+            .then((dbThoughtData) => res.json('Thought updated!'))
+            .catch((err) => res.status(500).json(err));
+    },
 
+    // DELETE a single thought
+    deleteThought(req, res) {
+        Thought.findOneAndDelete({ _id: req.params.thoughtId })
+            .then((thought) =>
+                !thought
+                    ? res.status(404).json({ message: 'Thought doesnt exist' })
+                    : User.findOneAndUpdate(
+                        { thoughts: req.params.thoughtId },
+                        { $pull: { thoughts: req.params.thoughtId } },
+                        { new: true }
+                    )
+            )
+            .then((thought) =>
+                !thought ? res
+                    .status(404)
+                    .json({ message: 'No user matching deleted thought' })
+                    : res.json({ message: 'Thought deleted' })
+            )
+            .catch((err) => res.status(500).json(err));
+    },
 };
