@@ -26,3 +26,15 @@ connection.once('open', async () => {
       username
     });
   }
+  //generates reaction array
+  const makeThought = (thoughtText) => {
+    thoughts.push({
+      thoughtText,
+      username: getRandomUserName().split(' ')[0],
+      reactions: [reactions[genRandomIndex(reactions)]._id],
+    });
+  };
+
+  // reachtions insterted in db
+  await User.collection.insertMany(userData);
+
