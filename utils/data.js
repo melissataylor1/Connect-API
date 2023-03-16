@@ -60,3 +60,10 @@ const usernames = [
     return results;
   };
   
+  // Export for seeds
+  module.exports = {
+    getRandomUserName,
+    getRandomReaction,
+    getRandomThought,
+    genRandomIndex,
+  };
