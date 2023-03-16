@@ -11,4 +11,24 @@ connection.once('open', async () => {
 
   // Drop existing Thoughts
   await Thought.deleteMany({});
-}
+
+  // Thoughts seed
+  const thoughts = [
+    {
+      thoughtText: "Here's a cool thought...",
+      userName: 'Amiko',
+    },
+    {
+      thoughtText: 'Well, nice',
+      userName: 'Lucia',
+    },
+    {
+      thoughtText: 'I love to gamble, nice',
+      userName: 'Al',
+    },
+    {
+      thoughtText: 'Gamble all day everyday',
+      userName: 'Sam',
+    },
+  ];
+
