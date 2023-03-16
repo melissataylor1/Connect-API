@@ -20,6 +20,20 @@ module.exports = {
         .catch((err) => res.status(500).json(err));
 },
 
+ // POST a new thought
+ createThought(req, res) {
+    // push new thought id to users thought array
+    Thought.create(req.body)
+    .then((thought) =>
+    !thought
+      ? res.status(404).json({ message: 'No thought with this id!' })
+      : User.findOneAndUpdate(
+          { username: req.body.username },
+          { $addToSet: { thoughts: thought._id } },
+          { new: true }
+          ).then((thought) => res.json('Thought successfully posted!'))
+        )},
+
 
 
 };
