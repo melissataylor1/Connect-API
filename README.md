@@ -43,6 +43,12 @@ Then use Insomnia to test the various functions.
 
 ## Walkthrough Video
 
+Video #1 (users, friends, thoughts)
+https://drive.google.com/file/d/18_ndwO5L0mhT8eaowL2ERUR2UabLJdR4/view
+
+Video #2 (reactions. )
+https://drive.google.com/file/d/1MG3OU3FR9yXTMq53TEuNd2PxyKWC0IPA/view
+
 ## Credits
 
 Jon Jackson my tutor
