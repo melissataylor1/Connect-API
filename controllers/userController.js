@@ -2,13 +2,15 @@ const { User, Thought } = require('../models');
 
 module.exports = {
     //GET all users
+    ///api/users
     getAllUsers(req, res) {
         User.find()
             .then((user) => res.json(user))
             .catch((err) => res.status(500).json(err))
     },
 
-    // GET single user by its _id, populated with thought & friend data 
+    // GET single user 
+    ///api/users/:user_id
     getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
             .populate('thoughts')
@@ -22,6 +24,7 @@ module.exports = {
     },
 
     // POST a new user
+    ////api/users
     createUser(req, res) {
         User.create(req.body)
             .then((dbUserData) => res.json(dbUserData))
@@ -32,6 +35,7 @@ module.exports = {
     },
 
     // UPDATE a new user
+    //api/users/:user_id
     updateUser(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
@@ -49,7 +53,8 @@ module.exports = {
             });
     },
 
-    // DELETE a user by its _id BONUS: removed a user's associated thoughts when deleted
+    // DELETE a user 
+    //api/users/:user_id
     deleteUser(req, res) {
         User.findOneAndDelete({ _id: req.params.userId })
             .then((user) =>
@@ -62,6 +67,7 @@ module.exports = {
     },
 
     // POST a new friend to user's friend list
+    ///api/users/:userId/friends/:friendId
     newFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
@@ -77,6 +83,7 @@ module.exports = {
     },
 
     // DELETE friend from user's friend list
+    ///api/users/:userId/friends/:friendId
     deleteFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId},
