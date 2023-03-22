@@ -8,8 +8,8 @@ module.exports = {
             .catch((err) => res.status(500).json(err))
     },
 
-    // GET single user 
-    getUser(req, res) {
+    // GET single user by its _id, populated with thought & friend data 
+    getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
             .populate('thoughts')
             .populate('friends')
@@ -49,7 +49,7 @@ module.exports = {
             });
     },
 
-    // DELETE a user by its _id 
+    // DELETE a user by its _id BONUS: removed a user's associated thoughts when deleted
     deleteUser(req, res) {
         User.findOneAndDelete({ _id: req.params.userId })
             .then((user) =>
@@ -62,7 +62,7 @@ module.exports = {
     },
 
     // POST a new friend to user's friend list
-    addFriend(req, res) {
+    newFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
             { $addToSet: { friends: req.params.friendId } },
@@ -91,6 +91,9 @@ module.exports = {
     .catch((err) => res.status(500).json(err));
     },
 };
+
+
+
 
 
 
